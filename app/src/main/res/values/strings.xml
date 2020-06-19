@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Approval SJU</string>
+    <string name="app_name_init">Approval System</string>
+    <string name="lihat">Lihat</string>
+    <string name="sembunyi">sembunyikan</string>
+    <string name="login_text">Login</string>
+    <string name="password_text">Password</string>
+    <string name="username_hint">Username/No. Tlp/E-mail</string>
+    <string name="search_title">Cari Pengajuan</string>
+    <string name="keluar">Keluar</string>
+    <string name="budget"><![CDATA[Budget & Jurnal]]></string>
+    <string name="contoh">ini mama \n mama</string>
+    <string name="dokumen">Dokumen</string>
+    <string name="flow_dokumen">Flow Dokumen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
