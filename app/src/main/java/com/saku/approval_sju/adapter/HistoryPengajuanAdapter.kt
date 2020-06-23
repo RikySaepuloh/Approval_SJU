@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.saku.approval_sju.DetailPengajuanActivity
 import com.saku.approval_sju.R
-import com.saku.approval_sju.models.ModelDataPengajuan
+import com.saku.approval_sju.models.ModelHistory
 import kotlinx.android.synthetic.main.layout_pengajuan.view.*
 import kotlin.collections.ArrayList
 
-class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelDataPengajuan>) :
+class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelHistory>) :
     RecyclerView.Adapter<HistoryPengajuanAdapter.DataPengajuanViewHolder>() {
-    private var mFilteredList: ArrayList<ModelDataPengajuan>? = rawData
-    private var mArrayList: ArrayList<ModelDataPengajuan>? = rawData
+    private var mFilteredList: ArrayList<ModelHistory>? = rawData
+    private var mArrayList: ArrayList<ModelHistory>? = rawData
     var context : Context? = null
     
     override fun onCreateViewHolder(
@@ -53,7 +54,7 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelDataPengajuan>)
             holder.tvTotal?.text = mFilteredList?.get(position)?.nilai + " IDR"
         }
 
-        holder.btnStatus?.setOnClickListener {
+        holder.layout?.setOnClickListener {
             val intent = Intent(context, DetailPengajuanActivity::class.java)
                 .apply {
                     putExtra("no_aju", mFilteredList?.get(position)?.no_bukti)
@@ -71,7 +72,7 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelDataPengajuan>)
                 mFilteredList = if (charString.isEmpty()) {
                     mArrayList
                 } else {
-                    val filteredList: ArrayList<ModelDataPengajuan> = ArrayList()
+                    val filteredList: ArrayList<ModelHistory> = ArrayList()
                     for (dataPengajuan in mArrayList!!) {
                         if (
                             dataPengajuan.no_bukti?.toLowerCase()?.contains(charString)!!||dataPengajuan.kode_pp?.toLowerCase()?.contains(charString)!!||
@@ -92,7 +93,7 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelDataPengajuan>)
                 charSequence: CharSequence?,
                 filterResults: FilterResults
             ) {
-                mFilteredList = filterResults.values as ArrayList<ModelDataPengajuan>?
+                mFilteredList = filterResults.values as ArrayList<ModelHistory>?
                 notifyDataSetChanged()
 
             }
@@ -109,6 +110,7 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelDataPengajuan>)
         val tvDue : TextView? = itemView?.tv_due_date
         val tvTotal : TextView? = itemView?.tv_total
         val btnStatus : ImageView? = itemView?.btn_status
+        val layout : CardView? = itemView?.layout
 
     }
 }

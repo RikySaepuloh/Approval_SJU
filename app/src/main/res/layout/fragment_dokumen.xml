@@ -60,4 +60,26 @@
                 android:text="Approve"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+<!--    <TextView-->
+<!--        android:id="@+id/txtProgressPercent"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        android:text="Downloaded 0%"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"-->
+<!--        android:layout_centerInParent="true" />-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        style="?android:attr/progressBarStyleHorizontal"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_below="@id/txtProgressPercent"/>-->
 </RelativeLayout>

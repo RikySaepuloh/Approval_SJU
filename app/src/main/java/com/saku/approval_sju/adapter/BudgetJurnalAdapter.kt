@@ -58,7 +58,7 @@ class BudgetJurnalAdapter(rawData:ArrayList<ModelBudgetJurnal>) :
 //        holder.tvKodepp?.text = (mFilteredList?.get(position)?.kodePp)
 //        holder.tvNamapp?.text = (mFilteredList?.get(position)?.namaPp)
 //        holder.tvKodeproyek?.text = (mFilteredList?.get(position)?.kodeProyek)
-        holder.tvNamaproyek?.text = (mFilteredList?.get(position)?.namaProyek)
+//        holder.tvNamaproyek?.text = (mFilteredList?.get(position)?.namaProyek)
         expand(holder.tvCardContent,holder.ivExpand)
         expandcollapse(holder.tvCardTitle,holder.tvCardContent,holder.ivExpand)
     }
@@ -79,7 +79,7 @@ class BudgetJurnalAdapter(rawData:ArrayList<ModelBudgetJurnal>) :
 //        val tvKodepp : TextView? = itemView?.tv_kodepp_bj
 //        val tvNamapp : TextView? = itemView?.tv_namapp_bj
 //        val tvKodeproyek : TextView? = itemView?.tv_kodeproyek_bj
-        val tvNamaproyek : TextView? = itemView?.tv_namaproyek_bj
+//        val tvNamaproyek : TextView? = itemView?.tv_namaproyek_bj
     }
 
     fun expandcollapse(title: RelativeLayout?, content: LinearLayout?, icon: ImageView?){

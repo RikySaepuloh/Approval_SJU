@@ -33,13 +33,15 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
 
     override fun onBindViewHolder(holder: DataPengajuanViewHolder, position: Int) {
         holder.nama?.text = mFilteredList?.get(position)?.no_gambar
-        val rawLink = mFilteredList?.get(position)?.host.toString().replace("\\","")
+        val rawLink = "http://newsju.simkug.com/server/media/"
+//            mFilteredList?.get(position)?.host.toString().replace("\\","")
         val filename = mFilteredList?.get(position)?.no_gambar.toString()
         val filedesc = mFilteredList?.get(position)?.kode_jenis.toString()
         holder.link?.setOnClickListener {
-            val url = "$rawLink/$filename"
+//            val url = "$rawLink$filename"
+//            Toast.makeText(context,rawLink+filename,Toast.LENGTH_LONG).show()
             val request =
-                DownloadManager.Request(Uri.parse(url))
+                DownloadManager.Request(Uri.parse(rawLink+filename))
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             request.setDescription(filedesc)
             request.setAllowedOverRoaming(true)
@@ -52,7 +54,7 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
             val manager =
                 context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
             manager!!.enqueue(request)
-            Toast.makeText(context, "Download sedang berlangsung", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Download sedang berlangsung$rawLink$filename", Toast.LENGTH_SHORT).show()
         }
     }
 

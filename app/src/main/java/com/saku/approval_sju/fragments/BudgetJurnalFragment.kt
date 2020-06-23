@@ -10,8 +10,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.saku.approval_sju.LoginActivity
@@ -35,7 +33,7 @@ class BudgetJurnalFragment : Fragment() {
     var preferences  = Preferences()
     var myadapter : BudgetJurnalAdapter? = null
     var myctx : Context? = null
-    var displayopt : String? = null
+    private var displayopt : String? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         myview = inflater.inflate(R.layout.fragment_budget_jurnal, container, false)
@@ -51,8 +49,11 @@ class BudgetJurnalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         myctx=context
         preferences.setPreferences(myctx!!)
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+        myview.rv_budget.layoutManager = layoutManager
+        myview.rv_budget.adapter = myadapter
         val noAju = activity!!.intent.extras!!.getString("no_aju")
-        initData(noAju,preferences.getToken(),preferences.getTokenType())
+        initData(noAju)
         val modul = activity!!.intent.extras!!.getString("modul")
 
 
@@ -78,7 +79,7 @@ class BudgetJurnalFragment : Fragment() {
         }
     }
 
-    fun initData(no_aju : String?, token: String?, bearer : String?) {
+    private fun initData(no_aju : String?) {
         val apiservice= UtilsApi().getAPIService(activity!!.applicationContext)
         apiservice?.detailjurnal(no_aju)?.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(
@@ -106,8 +107,6 @@ class BudgetJurnalFragment : Fragment() {
                                 BudgetJurnalAdapter(
                                     databudgetjurnal
                                 )
-                            val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-                            myview.rv_budget.layoutManager = layoutManager
                             myadapter!!.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                                 override fun onChanged() {
                                     super.onChanged()
@@ -169,38 +168,38 @@ class BudgetJurnalFragment : Fragment() {
     }
 
 
-    fun expandcollapse(title : RelativeLayout, content : LinearLayout, icon : ImageView){
-        title.setOnClickListener {
-            if (content.visibility==View.GONE){
-                TransitionManager.beginDelayedTransition(content,  AutoTransition())
-                content.visibility=View.VISIBLE
-                icon.animate().rotationBy(180f).start()
-//                expand(content,icon)
-            }else{
-                TransitionManager.beginDelayedTransition(content,  AutoTransition())
-//        content.animate().translationY(0F);
-                content.visibility=View.GONE
-                icon.animate().rotationBy(180f).start()
-//                collapse(content,icon)
-            }
-        }
-    }
+//    fun expandcollapse(title : RelativeLayout, content : LinearLayout, icon : ImageView){
+//        title.setOnClickListener {
+//            if (content.visibility==View.GONE){
+//                TransitionManager.beginDelayedTransition(content,  AutoTransition())
+//                content.visibility=View.VISIBLE
+//                icon.animate().rotationBy(180f).start()
+////                expand(content,icon)
+//            }else{
+//                TransitionManager.beginDelayedTransition(content,  AutoTransition())
+////        content.animate().translationY(0F);
+//                content.visibility=View.GONE
+//                icon.animate().rotationBy(180f).start()
+////                collapse(content,icon)
+//            }
+//        }
+//    }
 
-    fun expand(content: LinearLayout, icon: ImageView){
-//        content.animate().translationY(content.height.toFloat());
-        TransitionManager.beginDelayedTransition(content,  AutoTransition())
-        content.visibility=View.VISIBLE
-        icon.rotation = 180f
-//        icon.animate().rotationBy(180f).start()
-    }
-
-    fun collapse(content: LinearLayout, icon: ImageView){
-        TransitionManager.beginDelayedTransition(content,  AutoTransition())
-//        content.animate().translationY(0F);
-        content.visibility=View.GONE
-        icon.rotation = 0f
-//        icon.animate().rotationBy(180f).start()
-    }
+//    fun expand(content: LinearLayout, icon: ImageView){
+////        content.animate().translationY(content.height.toFloat());
+//        TransitionManager.beginDelayedTransition(content,  AutoTransition())
+//        content.visibility=View.VISIBLE
+//        icon.rotation = 180f
+////        icon.animate().rotationBy(180f).start()
+//    }
+//
+//    fun collapse(content: LinearLayout, icon: ImageView){
+//        TransitionManager.beginDelayedTransition(content,  AutoTransition())
+////        content.animate().translationY(0F);
+//        content.visibility=View.GONE
+//        icon.rotation = 0f
+////        icon.animate().rotationBy(180f).start()
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

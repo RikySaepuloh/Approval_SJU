@@ -1,9 +1,15 @@
 package com.saku.approval_sju
 
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.saku.approval_sju.fragments.HistoryFragment
 import com.saku.approval_sju.fragments.HomeFragment
@@ -11,13 +17,32 @@ import com.saku.approval_sju.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
 
-
+    var periode : String = java.text.SimpleDateFormat("yyyyMM", java.util.Locale.getDefault()).format(java.util.Date())
 //    lateinit var layout_toolbar: ActionBar
+
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            if(intent.hasExtra("filter")){
+                periode = intent.getStringExtra("filter")
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(mMessageReceiver, IntentFilter("filter_intent"))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(mMessageReceiver)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         initFragment(HomeFragment.newInstance());
 //        layout_toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)

@@ -19,7 +19,7 @@ import com.saku.approval_sju.Preferences
 import com.saku.approval_sju.R
 import com.saku.approval_sju.adapter.HistoryPengajuanAdapter
 import com.saku.approval_sju.api_service.UtilsApi
-import com.saku.approval_sju.models.ModelDataPengajuan
+import com.saku.approval_sju.models.ModelHistory
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_history.view.*
 import kotlinx.android.synthetic.main.fragment_history.view.empty_view
@@ -45,7 +45,6 @@ class HistoryFragment : Fragment() {
         myview.swipe_refresh.setOnRefreshListener {
             initData(preferences.getToken(),preferences.getTokenType(),"INPROG",myparams)
             myview.swipe_refresh.isRefreshing = false
-
         }
         return myview
     }
@@ -81,8 +80,8 @@ class HistoryFragment : Fragment() {
 
                                     val gson = Gson()
                                     val type: Type = object :
-                                        TypeToken<ArrayList<ModelDataPengajuan?>?>() {}.type
-                                    val datapengajuan: ArrayList<ModelDataPengajuan> =
+                                        TypeToken<ArrayList<ModelHistory?>?>() {}.type
+                                    val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
                                     myadapter =
                                         HistoryPengajuanAdapter(
@@ -166,8 +165,8 @@ class HistoryFragment : Fragment() {
 
                                     val gson = Gson()
                                     val type: Type = object :
-                                        TypeToken<ArrayList<ModelDataPengajuan?>?>() {}.type
-                                    val datapengajuan: ArrayList<ModelDataPengajuan> =
+                                        TypeToken<ArrayList<ModelHistory?>?>() {}.type
+                                    val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
                                     myadapter =
                                         HistoryPengajuanAdapter(
@@ -251,8 +250,8 @@ class HistoryFragment : Fragment() {
 
                                     val gson = Gson()
                                     val type: Type = object :
-                                        TypeToken<ArrayList<ModelDataPengajuan?>?>() {}.type
-                                    val datapengajuan: ArrayList<ModelDataPengajuan> =
+                                        TypeToken<ArrayList<ModelHistory?>?>() {}.type
+                                    val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
     //                        for (data in datapengajuan) {
     //                            Log.i(

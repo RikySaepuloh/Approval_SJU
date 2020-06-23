@@ -65,7 +65,9 @@ class ProsesActivity : AppCompatActivity() {
                 builder.setPositiveButton(
                     "Ya"
                 ) {
-                        _, _ -> sendApprove(preferences.getToken(),preferences.getTokenType(),modul,"APPROVE",noAju,input_keterangan.text.toString()) }
+                        _, _ ->
+                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
+                    sendApprove("2020-07-03",modul,"APPROVE",noAju,input_keterangan.text.toString()) }
                 builder.setNegativeButton(
                     "Tidak"
                 ) { _, _ ->
@@ -84,7 +86,9 @@ class ProsesActivity : AppCompatActivity() {
                 builder.setPositiveButton(
                     "Ya"
                 ) {
-                        _, _ -> sendApprove(preferences.getToken(),preferences.getTokenType(),modul,"RETURN",noAju,input_keterangan.text.toString()) }
+                        _, _ ->
+                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
+                    sendApprove("2020-07-03",modul,"RETURN",noAju,input_keterangan.text.toString()) }
                 builder.setNegativeButton(
                     "Tidak"
                 ) { _, _ ->
@@ -99,7 +103,8 @@ class ProsesActivity : AppCompatActivity() {
         }
     }
 
-    fun sendApprove(token: String?, bearer : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
+//    fun sendApprove(tanggal : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
+        fun sendApprove(tanggal : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
         val apiservice= UtilsApi().getAPIService(this)
         apiservice?.approval(modul,status,no_aju,keterangan)?.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(

@@ -15,16 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.saku.approval_sju.*
-import com.saku.approval_sju.FilterActivity
-import com.saku.approval_sju.LoginActivity
-import com.saku.approval_sju.Preferences
 import com.saku.approval_sju.adapter.DataPengajuanAdapter
 import com.saku.approval_sju.api_service.UtilsApi
 import com.saku.approval_sju.database.FilterHandler
 import com.saku.approval_sju.models.ModelDataPengajuan
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.empty_view
-import kotlinx.android.synthetic.main.fragment_home.view.swipe_refresh
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -38,14 +33,30 @@ class HomeFragment : Fragment(){
     var preferences  = Preferences()
     var myadapter : DataPengajuanAdapter? = null
     var myctx :Context? = null
+    private var periode : String? = null
+//    private var periode: String =
+//        java.text.SimpleDateFormat("yyyyMM", java.util.Locale.getDefault()).format(java.util.Date())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         myview = inflater.inflate(R.layout.fragment_home, container, false)
+        periode = (activity as MainActivity).periode
         myctx=context
+
+//        try {
+//            if(arguments?.getString(" periode")!=""|| arguments!!.getString("periode")!=null){
+//                periode = arguments!!.getString("periode").toString()
+//            }
+//        } catch (e: Exception) {
+//        }
         return myview
     }
 
+    override fun onResume() {
+        super.onResume()
+        periode = (activity as MainActivity).periode
+        initData()
+    }
 
     private fun search(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -65,9 +76,9 @@ class HomeFragment : Fragment(){
         retainInstance = true
     }
 
-    fun initData(token : String? ,bearer : String?) {
+    private fun initData() {
         val apiservice = UtilsApi().getAPIService(myctx!!)
-        apiservice?.daftarpengajuan()?.enqueue(object : Callback<ResponseBody?> {
+        apiservice?.daftarpengajuan(periode)?.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(
                 call: Call<ResponseBody?>,
                 response: Response<ResponseBody?>
@@ -84,7 +95,7 @@ class HomeFragment : Fragment(){
 
                             val datapengajuan: ArrayList<ModelDataPengajuan> =
                                 gson.fromJson(dataobj.optString("data"), type)
-                            val mydata: ArrayList<ModelDataPengajuan>? = null
+//                            val mydata: ArrayList<ModelDataPengajuan>? = null
                             myadapter =
                                 DataPengajuanAdapter(
                                     datapengajuan
@@ -173,10 +184,10 @@ class HomeFragment : Fragment(){
             startActivity(intent)
         }
         preferences.setPreferences(myctx!!)
-        initData(preferences.getToken(),preferences.getTokenType())
+        initData()
         search(myview.sv_search)
         myview.swipe_refresh.setOnRefreshListener {
-            initData(preferences.getToken(),preferences.getTokenType())
+            initData()
             myview.swipe_refresh.isRefreshing = false
         }
         try {

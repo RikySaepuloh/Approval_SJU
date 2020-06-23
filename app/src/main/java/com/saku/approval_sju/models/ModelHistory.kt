@@ -2,11 +2,11 @@ package com.saku.approval_sju.models
 
 import com.google.gson.annotations.SerializedName
 
-class ModelDataPengajuan() {
+class ModelHistory() {
     @SerializedName("due_date")
     var due_date: String? = null
-    @SerializedName("no_pb")
-    var no_pb: String? = null
+    @SerializedName("no_bukti")
+    var no_bukti: String? = null
     @SerializedName("status")
     var status: String? = null
     @SerializedName("tgl")
@@ -25,8 +25,8 @@ class ModelDataPengajuan() {
     var keterangan: String? = null
     @SerializedName("nilai")
     var nilai: String? = null
-    @SerializedName("nama_buat")
-    var nama_buat: String? = null
+    @SerializedName("pembuat")
+    var pembuat: String? = null
     @SerializedName("no_app2")
     var no_app2: String? = null
     @SerializedName("kode_lokasi")

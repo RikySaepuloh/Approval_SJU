@@ -16,14 +16,24 @@ interface ApiService {
     @FormUrlEncoded
     @POST("app")
     fun approval(
+//        @Field("tanggal") tanggal: String?,
         @Field("modul") modul: String?,
         @Field("status") status: String?,
         @Field("no_aju") no_aju: String?,
         @Field("keterangan") keterangan: String?
     ): Call<ResponseBody>
 
+    @Streaming
+    @GET
+    fun download(@Url urlString: String?): Call<ResponseBody?>
+
     @GET("aju")
     fun daftarpengajuan(
+        @Query("periode") periode:String?
+    ): Call<ResponseBody>
+
+    @GET("periode_aju")
+    fun periode(
     ): Call<ResponseBody>
 
     @GET("aju_history/all")
@@ -53,7 +63,7 @@ interface ApiService {
         @Path("no_aju") no_aju: String?
     ): Call<ResponseBody>
 
-    @GET("ajudet_{no_aju}")
+    @GET("ajudet_approval/{no_aju}")
     fun detailflow(
         @Path("no_aju") no_aju: String?
     ): Call<ResponseBody>
@@ -71,7 +81,4 @@ interface ApiService {
     @GET("profile")
     fun user(
     ): Call<ResponseBody>
-
-    @GET
-    fun downloadFile(@Url fileUrl: String?): Call<ResponseBody?>?
 }

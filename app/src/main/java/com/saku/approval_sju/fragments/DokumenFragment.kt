@@ -49,10 +49,6 @@ class DokumenFragment : Fragment() {
         if(displayopt.equals("history")){
             myview.layout_appv.visibility = View.GONE
         }
-        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-        myview.rv_dokumen.layoutManager = layoutManager
-        myview.rv_dokumen.adapter = myadapter
-
         return myview
     }
 
@@ -60,6 +56,9 @@ class DokumenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         myctx=context
         preferences.setPreferences(myctx!!)
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+        myview.rv_dokumen.layoutManager = layoutManager
+        myview.rv_dokumen.adapter = myadapter
         val noAju = activity!!.intent.extras!!.getString("no_aju")
         val modul = activity!!.intent.extras!!.getString("modul")
         // Here, thisActivity is the current activity
