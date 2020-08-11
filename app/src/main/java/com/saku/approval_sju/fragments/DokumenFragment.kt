@@ -45,10 +45,6 @@ class DokumenFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         myview = inflater.inflate(R.layout.fragment_dokumen, container, false)
-        displayopt = activity!!.intent.extras!!.getString("displayopt")
-        if(displayopt.equals("history")){
-            myview.layout_appv.visibility = View.GONE
-        }
         return myview
     }
 
@@ -114,24 +110,6 @@ class DokumenFragment : Fragment() {
             // Permission has already been granted
         }
         initData(noAju,preferences.getToken(),preferences.getTokenType())
-        myview.btn_approve.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Approve")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
-        myview.btn_reject.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Reject")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
     }
 
     fun initData(no_aju : String?, token: String?, bearer : String?) {

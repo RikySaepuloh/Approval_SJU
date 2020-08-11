@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.saku.approval_sju.DetailPengajuanActivity
+import com.saku.approval_sju.Library
 import com.saku.approval_sju.R
 import com.saku.approval_sju.models.ModelDataPengajuan
 import kotlinx.android.synthetic.main.layout_pengajuan.view.*
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.layout_pengajuan.view.*
 class DataPengajuanAdapter(rawData:ArrayList<ModelDataPengajuan>) :
     RecyclerView.Adapter<DataPengajuanAdapter.DataPengajuanViewHolder>() {
     var context : Context? = null
+    val library=Library()
     private var mFilteredList: ArrayList<ModelDataPengajuan>? = rawData
     private var mArrayList: ArrayList<ModelDataPengajuan>? = rawData
 
@@ -46,7 +48,7 @@ class DataPengajuanAdapter(rawData:ArrayList<ModelDataPengajuan>) :
 //            " Jt IDR"
 //        }
 
-        holder.tvTotal?.text = mFilteredList?.get(position)?.nilai + " IDR"
+        holder.tvTotal?.text = library.toRupiah(mFilteredList?.get(position)?.nilai!!.toDouble())
 //
 //        if(mFilteredList?.get(position)?.nilai!!.length<=7){
 //            holder.tvTotal?.text = mFilteredList?.get(position)?.nilai?.substring(0,

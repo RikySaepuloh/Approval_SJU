@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="20dp"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -11,23 +12,36 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:weightSum="3">
-        <TextView
-            android:id="@+id/tv_nama_link"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="-"
-            />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/filetype"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                android:layout_marginEnd="8dp"
+                android:text="-"
+                tools:ignore="SmallSp" />
+            <TextView
+                android:id="@+id/tv_nama_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-"
+                />
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_link"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:autoLink="web"
             android:gravity="end"
             android:textColor="@color/colorPrimary"
-            android:text="download"
+            android:text="Lihat"
             />
     </LinearLayout>
 

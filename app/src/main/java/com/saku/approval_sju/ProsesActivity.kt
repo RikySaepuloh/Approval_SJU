@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,24 +15,29 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ProsesActivity : AppCompatActivity() {
     var preferences  = Preferences()
-    var modul : String? = null
-    var noAju : String? = null
-    var context : Context?=null
+    var noUrut : String? = null
+    lateinit var status:String
+    lateinit var noAju:String
+    lateinit var modul:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proses)
         setSupportActionBar(toolbar)
         preferences.setPreferences(this)
-        context=applicationContext
-        noAju = this.intent.extras!!.getString("no_aju")
-        val status = this.intent.extras!!.getString("status")
-        modul = this.intent.extras!!.getString("modul")
+        noAju = intent.getStringExtra("no_aju")
+        status = intent.getStringExtra("status")
+        modul = intent.getStringExtra("modul")
+//        modul = this.intent.extras!!.getString("modul")
+//        noAju = this.intent.extras!!.getString("no_aju")
+//        var status = this.intent.extras!!.getString("status")
 
-        if(status.equals("Approve")){
+        if(status == "Approve"){
             status_pengajuan.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this,
                 R.drawable.ic_approved_small),null,null,null)
             status_pengajuan.text = "Approved"
@@ -42,7 +48,7 @@ class ProsesActivity : AppCompatActivity() {
                 R.drawable.ic_rejected_small),null,null,null)
             status_pengajuan.setTextColor(ContextCompat.getColor(this,
                 R.color.red))
-            status_pengajuan.text = "Rejected"
+            status_pengajuan.text = "Return"
         }
 
         back_btn.setOnClickListener { finish() }
@@ -55,7 +61,7 @@ class ProsesActivity : AppCompatActivity() {
     fun showConfirm(status: String?){
 //        Toast.makeText(context, "34-PB2005.0004 PBBAU", Toast.LENGTH_SHORT).show()
         if(input_keterangan.text.toString().trim() == ""){
-            Toast.makeText(context, "Keterangan masih kosong!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Keterangan masih kosong!", Toast.LENGTH_SHORT).show()
         }else{
             if (status == "Approve"){
                 val builder = AlertDialog.Builder(this)
@@ -66,8 +72,8 @@ class ProsesActivity : AppCompatActivity() {
                     "Ya"
                 ) {
                         _, _ ->
-                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
-                    sendApprove("2020-07-03",modul,"APPROVE",noAju,input_keterangan.text.toString()) }
+//                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
+                    sendApprove("APPROVE") }
                 builder.setNegativeButton(
                     "Tidak"
                 ) { _, _ ->
@@ -87,8 +93,8 @@ class ProsesActivity : AppCompatActivity() {
                     "Ya"
                 ) {
                         _, _ ->
-                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
-                    sendApprove("2020-07-03",modul,"RETURN",noAju,input_keterangan.text.toString()) }
+//                    Toast.makeText(this,"Hardcoded",Toast.LENGTH_SHORT).show()
+                    sendApprove("RETURN") }
                 builder.setNegativeButton(
                     "Tidak"
                 ) { _, _ ->
@@ -104,55 +110,162 @@ class ProsesActivity : AppCompatActivity() {
     }
 
 //    fun sendApprove(tanggal : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
-        fun sendApprove(tanggal : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
-        val apiservice= UtilsApi().getAPIService(this)
-        apiservice?.approval(modul,status,no_aju,keterangan)?.enqueue(object : Callback<ResponseBody?> {
+//        fun sendApprove(tanggal : String?, modul : String?,  status : String?,no_aju : String?, keterangan : String?) {
+//        val apiservice= UtilsApi().getAPIService(this)
+//        apiservice?.approval(modul,status,no_aju,keterangan)?.enqueue(object : Callback<ResponseBody?> {
+//            override fun onResponse(
+//                call: Call<ResponseBody?>,
+//                response: Response<ResponseBody?>
+//            ) {
+//                if (response.isSuccessful) {
+//                    if (response.body() != null) {
+//                        val obj = JSONObject(response.body()!!.string())
+////                        Toast.makeText(context, obj.optString("id")+" \n "+obj.optString("message"), Toast.LENGTH_SHORT).show()
+////                        val builder = AlertDialog.Builder(context)
+////                        //            builder.setTitle("Peringatan");
+////                        builder.setMessage("Kembali ke Home?")
+////                        builder.setCancelable(true)
+////                        builder.setPositiveButton(
+////                            "Ya"
+////                        ) {
+////                                _, _ ->
+//                            val intent = Intent(context, SuccessActivity::class.java)
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                            startActivity(intent)
+////                        }
+////                        builder.setNegativeButton(
+////                            "Tidak"
+////                        ) { _, _ ->
+////
+////                        }
+////                        val dialog = builder.create()
+////                        dialog.show()
+//                    }else{
+//                        //                        if (data.length() > 0) {
+//                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+//                    }
+//                } else if(response.code() == 422) {
+//                    Toast.makeText(context, "Keterangan Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+//                } else if(response.code() == 401){
+//                    Toast.makeText(context, "Format Keterangan Salah", Toast.LENGTH_SHORT).show()
+//                } else if(response.code() == 403){
+//                    Toast.makeText(context, "Token Invalid", Toast.LENGTH_SHORT).show()
+//                } else if(response.code() == 404){
+//                    Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+//                Toast.makeText(context, "Koneksi Bermasalah", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+
+    fun sendApprove(stat:String) {
+        val tanggal: String =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+        val apiservice= UtilsApi().getAPIService(this@ProsesActivity)
+        apiservice?.approval(noAju,stat,input_keterangan.text.toString(),noUrut,tanggal)?.enqueue(object :
+            Callback<ResponseBody?> {
             override fun onResponse(
                 call: Call<ResponseBody?>,
                 response: Response<ResponseBody?>
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        val obj = JSONObject(response.body()!!.string())
-//                        Toast.makeText(context, obj.optString("id")+" \n "+obj.optString("message"), Toast.LENGTH_SHORT).show()
-//                        val builder = AlertDialog.Builder(context)
-//                        //            builder.setTitle("Peringatan");
-//                        builder.setMessage("Kembali ke Home?")
-//                        builder.setCancelable(true)
-//                        builder.setPositiveButton(
-//                            "Ya"
-//                        ) {
-//                                _, _ ->
-                            val intent = Intent(context, SuccessActivity::class.java)
+                        try {
+                            val obj = JSONObject(response.body()!!.string())
+                            val idDevice = obj.optString("id_device")
+                            val nik = obj.optString("nik_app")
+                            sendNotification(idDevice,nik)
+                            Toast.makeText(this@ProsesActivity, obj.optString("message"), Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@ProsesActivity, MainActivity::class.java)
+                            intent.putExtra("history",true)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
-//                        }
-//                        builder.setNegativeButton(
-//                            "Tidak"
-//                        ) { _, _ ->
-//
-//                        }
-//                        val dialog = builder.create()
-//                        dialog.show()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }else{
-                        //                        if (data.length() > 0) {
-                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ProsesActivity, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                     }
                 } else if(response.code() == 422) {
-                    Toast.makeText(context, "Keterangan Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProsesActivity, "Keterangan Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
                 } else if(response.code() == 401){
-                    Toast.makeText(context, "Format Keterangan Salah", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProsesActivity, "Format Keterangan Salah", Toast.LENGTH_SHORT).show()
                 } else if(response.code() == 403){
-                    Toast.makeText(context, "Token Invalid", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProsesActivity, "Token Invalid", Toast.LENGTH_SHORT).show()
                 } else if(response.code() == 404){
-                    Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProsesActivity, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Toast.makeText(context, "Koneksi Bermasalah", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProsesActivity, "Koneksi Bermasalah", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun sendNotification(idDevice:String,nik:String) {
+
+        val title  = "Justifikasi Pengadaan"
+        val message  = "Pengajuan Justifikasi Pengadaan $noAju menunggu approval anda."
+
+        val apiservice = UtilsApi().getAPIService(this@ProsesActivity!!)
+        apiservice?.sendNotif(idDevice,title,message,nik)?.enqueue(object : Callback<ResponseBody?> {
+            override fun onResponse(
+                call: Call<ResponseBody?>,
+                response: Response<ResponseBody?>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val obj = JSONObject(response.body()!!.string())
+                            Log.e("Response:", obj.toString())
+//                                if(obj.optString("status").isNotEmpty()&&obj.optString("status")=="false"){
+//                                    Toast.makeText(this@ProsesActivity,"Terjadi kesalahan notif",Toast.LENGTH_SHORT).show()
+//                                }
+
+                        } catch (e: Exception) {
+
+                        }
+                    }else{
+                        Toast.makeText(this@ProsesActivity, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                } else if(response.code() == 422) {
+                    Toast.makeText(this@ProsesActivity, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                } else if(response.code() == 401){
+                    val intent = Intent(this@ProsesActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    preferences.preferencesLogout()
+                    finishAffinity()
+                    Toast.makeText(this@ProsesActivity, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show()
+                } else if(response.code() == 403){
+                    Toast.makeText(this@ProsesActivity, "Unauthorized", Toast.LENGTH_SHORT).show()
+                } else if(response.code() == 404){
+                    Toast.makeText(this@ProsesActivity, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                Toast.makeText(this@ProsesActivity, "Koneksi Bermasalah", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+//        try {
+//            val instance = FCMInstance
+//            instance.setContext(context!!)
+//            val response = instance.api.sendNotif("notification")
+//            if(response.isSuccessful){
+//                Log.d(TAG,"Response: ${Gson().toJson(response)}")
+//            }else{
+//                Log.d(TAG,response.errorBody().toString())
+//            }
+//        } catch (e: Exception) {
+//            Log.d(TAG,e.toString())
+//        }
     }
 
 }

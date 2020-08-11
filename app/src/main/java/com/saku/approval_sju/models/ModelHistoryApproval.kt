@@ -21,6 +21,9 @@ data class ModelHistoryApproval(
 
 	@field:SerializedName("status")
 	val status: String? = null,
+
+	@field:SerializedName("modul")
+	val modul: String? = null,
 	
 	@field:SerializedName("catatan")
 	val catatan: String? = null

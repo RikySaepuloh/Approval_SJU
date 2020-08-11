@@ -7,16 +7,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.saku.approval_sju.LoginActivity
-import com.saku.approval_sju.Preferences
-import com.saku.approval_sju.ProsesActivity
-import com.saku.approval_sju.R
+import com.saku.approval_sju.*
 import com.saku.approval_sju.api_service.UtilsApi
 import com.saku.approval_sju.models.ModelInfoPengajuan
 import kotlinx.android.synthetic.main.fragment_info_pengajuan.view.*
@@ -26,6 +26,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class InfoPengajuanFragment : Fragment() {
@@ -34,13 +37,14 @@ class InfoPengajuanFragment : Fragment() {
     var preferences  = Preferences()
     var myctx : Context? = null
     var displayopt : String? = null
+    val library= Library()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         myview = inflater.inflate(R.layout.fragment_info_pengajuan, container, false)
+        val data = (activity) as DetailPengajuanActivity
         displayopt = activity!!.intent.extras!!.getString("displayopt")
         if(displayopt.equals("history")){
-            myview.layout_appv.visibility = View.GONE
             myview.scroll_appv.setPadding(0,0,0,0)
             myview.layout_keterangan.visibility = View.VISIBLE
         }
@@ -54,33 +58,13 @@ class InfoPengajuanFragment : Fragment() {
 
         expand(myview.card_content_nilai,myview.iv_expand_nilai)
         expandcollapse(myview.card_title_nilai,myview.card_content_nilai,myview.iv_expand_nilai)
-        expand(myview.card_content_pembuat,myview.iv_expand_pembuat)
-        expandcollapse(myview.card_title_pembuat,myview.card_content_pembuat,myview.iv_expand_pembuat)
+//        expand(myview.card_content_pembuat,myview.iv_expand_pembuat)
+//        expandcollapse(myview.card_title_pembuat,myview.card_content_pembuat,myview.iv_expand_pembuat)
         expand(myview.card_content_detailp,myview.iv_expand_detailp)
         expandcollapse(myview.card_title_detailp,myview.card_content_detailp,myview.iv_expand_detailp)
         val noAju = activity!!.intent.extras!!.getString("no_aju")
         val modul = activity!!.intent.extras!!.getString("modul")
         initData(noAju,preferences.getToken(),preferences.getTokenType())
-
-
-        myview.btn_approve.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Approve")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
-        myview.btn_reject.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Reject")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
     }
 
     fun initData(no_aju : String?, token: String?, bearer : String?) {
@@ -104,18 +88,23 @@ class InfoPengajuanFragment : Fragment() {
                                     gson.fromJson(dataobj.optString("data"), type)
                                 for (data in datapengajuan) {
                                     myview.tv_catatan?.text = "Catatan :\n"+data.getCatatan()
-                                    myview.tv_total_pengajuan?.text = data.getNilai() + " IDR"
-                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
-                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
-                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
+                                    myview.tv_total_pengajuan?.text = library.toRupiah(data.nilaiSeb!!.toDouble())
+                                    myview.tv_nilai_net?.text = library.toRupiah(data.getNilai()!!.toDouble())
+                                    myview.tv_potongan?.text = library.toRupiah(data.potongan!!.toDouble())
+//                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
+//                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
+//                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
                                     myview.tv_pp?.text = data.getPp()
                                     myview.tv_deskripsi?.text = data.getKeterangan()
                                     myview.tv_nama_pembuat?.text = data.getPembuat()
-                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
+//                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
                                     myview.tv_nobukti?.text = data.getNoBukti()
                                     myview.tv_modul?.text = data.getModul()
                                     myview.tv_tgl_bukti?.text = data.getTgl()
-                                    myview.tv_due?.text = data.getDueDate()
+                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(data.getDueDate())
+                                    val formattedDate: String =
+                                        SimpleDateFormat("dd/MM/yyyy").format(date)
+                                    myview.tv_due?.text = formattedDate
 
     //                            Log.i(
     //                                "Data Pengajuan",
@@ -169,18 +158,24 @@ class InfoPengajuanFragment : Fragment() {
                                     gson.fromJson(dataobj.optString("data"), type)
                                 for (data in datapengajuan) {
 
-                                    myview.tv_total_pengajuan?.text = data.getNilai() + " IDR"
-                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
-                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
-                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
+                                    myview.tv_total_pengajuan?.text = library.toRupiah(data.nilaiSeb!!.toDouble())
+                                    myview.tv_nilai_net?.text = library.toRupiah(data.getNilai()!!.toDouble())
+                                    myview.tv_potongan?.text = library.toRupiah(data.potongan!!.toDouble())
+
+//                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
+//                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
+//                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
                                     myview.tv_pp?.text = data.getPp()
                                     myview.tv_deskripsi?.text = data.getKeterangan()
                                     myview.tv_nama_pembuat?.text = data.getPembuat()
-                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
+//                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
                                     myview.tv_nobukti?.text = data.getNoBukti()
                                     myview.tv_modul?.text = data.getModul()
                                     myview.tv_tgl_bukti?.text = data.getTgl()
-                                    myview.tv_due?.text = data.getDueDate()
+                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(data.getDueDate())
+                                    val formattedDate: String =
+                                        SimpleDateFormat("dd/MM/yyyy").format(date)
+                                    myview.tv_due?.text = formattedDate
 
                                     //                            Log.i(
                                     //                                "Data Pengajuan",

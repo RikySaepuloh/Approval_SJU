@@ -13,6 +13,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.saku.approval_sju.fragments.HistoryFragment
 import com.saku.approval_sju.fragments.HomeFragment
+import com.saku.approval_sju.fragments.NotifikasiFragment
 import com.saku.approval_sju.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_history -> {
                 val historyFragment = HistoryFragment.newInstance()
                 openFragment(historyFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_notification -> {
+                openFragment(NotifikasiFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {

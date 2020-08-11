@@ -12,9 +12,9 @@ class PageAdapter internal constructor(fm: FragmentManager?, private val numOfTa
         return when (position) {
             0 -> InfoPengajuanFragment()
             1 -> BankTransferFragment()
-            2 -> BudgetJurnalFragment()
-            3 -> DokumenFragment()
-            4 -> FlowDokumenFragment()
+//            2 -> BudgetJurnalFragment()
+            2 -> DokumenFragment()
+            3 -> FlowDokumenFragment()
             else -> InfoPengajuanFragment.newInstance()
         }
     }

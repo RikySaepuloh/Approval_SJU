@@ -2,7 +2,7 @@ package com.saku.approval_sju.models
 
 import com.google.gson.annotations.SerializedName
 
-class ModelDataPengajuan() {
+class ModelDataPengajuan {
     @SerializedName("due_date")
     var due_date: String? = null
     @SerializedName("no_pb")

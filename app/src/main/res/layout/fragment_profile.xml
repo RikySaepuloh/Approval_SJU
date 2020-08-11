@@ -30,7 +30,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:text="Guest"/>
+        android:text="-"/>
 
     <TextView
         android:layout_marginTop="20dp"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="xxxxxxxxxx"
+        android:text="-"
         />
 
     <TextView
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="08xxxxxxxxxx"
+        android:text="-"
         />
 
     <TextView

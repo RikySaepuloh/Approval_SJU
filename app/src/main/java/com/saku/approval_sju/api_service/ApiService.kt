@@ -10,22 +10,30 @@ interface ApiService {
     @POST("login")
     fun login(
         @Field("nik") nik: String?,
-        @Field("password") password: String?
+        @Field("password") password: String?,
+        @Field("id_device") id_device: String?
     ): Call<LoginResponse>
 
     @FormUrlEncoded
     @POST("app")
     fun approval(
-//        @Field("tanggal") tanggal: String?,
-        @Field("modul") modul: String?,
-        @Field("status") status: String?,
+//        @Field("tanggal") tanggal: String?
+//        @Field("modul") modul: String?,
         @Field("no_aju") no_aju: String?,
-        @Field("keterangan") keterangan: String?
+        @Field("status") status: String?,
+        @Field("keterangan") keterangan: String?,
+        @Field("no_urut") no_urut: String?,
+        @Field("tanggal") tanggal: String?
     ): Call<ResponseBody>
 
-    @Streaming
-    @GET
-    fun download(@Url urlString: String?): Call<ResponseBody?>
+//    @FormUrlEncoded
+//    @POST("app")
+//    fun approval(
+//        @Field("modul") modul: String?,
+//        @Field("status") status: String?,
+//        @Field("no_aju") no_aju: String?,
+//        @Field("keterangan") keterangan: String?
+//    ): Call<ResponseBody>
 
     @GET("aju")
     fun daftarpengajuan(
@@ -81,4 +89,16 @@ interface ApiService {
     @GET("profile")
     fun user(
     ): Call<ResponseBody>
-}
+
+    @FormUrlEncoded
+    @POST("notif")
+    fun sendNotif(
+        @Field("token[]") token: String,
+        @Field("data[title]") title: String,
+        @Field("data[message]") message: String,
+        @Field("data[nik]") nik: String
+    ):Call<ResponseBody>
+
+    @GET("notif")
+    fun notif(
+    ):Call<ResponseBody>}

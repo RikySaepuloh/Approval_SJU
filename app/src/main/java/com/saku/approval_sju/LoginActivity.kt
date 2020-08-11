@@ -2,10 +2,13 @@ package com.saku.approval_sju
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.saku.approval_sju.api_service.LoginResponse
 import com.saku.approval_sju.api_service.UtilsApi
 import kotlinx.android.synthetic.main.activity_login.*
@@ -15,11 +18,13 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     var spsave  = Preferences()
+    var idDevice : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         spsave.setPreferences(this@LoginActivity)
+        firebaseInstance()
         if(spsave.getLogStatus()){
             val intent =
                 Intent(this@LoginActivity, MainActivity::class.java)
@@ -32,13 +37,33 @@ class LoginActivity : AppCompatActivity() {
         version_name.text = "Versi "+BuildConfig.VERSION_NAME
 
         btnLogin.setOnClickListener {
-            login(etNik.text.toString(),etPassword.text.toString())
+            login(etNik.text.toString(),etPassword.text.toString(),idDevice!!)
         }
     }
 
-    fun login(nik: String?, password : String?) {
+    fun firebaseInstance(){
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FIREBASE", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new Instance ID token
+                idDevice = task.result?.token
+                Log.e("FIREBASE",idDevice)
+
+                // Log and toast
+//                val msg = getString(R.string.msg_token_fmt, token)
+//                Log.d(TAG, msg)
+//                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            })
+
+    }
+
+    fun login(nik: String?, password : String?,idDevice:String) {
         val utilsapi= UtilsApi().getAPIService(this)
-        utilsapi?.login(nik,password)?.enqueue(object : Callback<LoginResponse?> {
+        utilsapi?.login(nik,password,idDevice)?.enqueue(object : Callback<LoginResponse?> {
             override fun onResponse(
                 call: Call<LoginResponse?>,
                 response: Response<LoginResponse?>

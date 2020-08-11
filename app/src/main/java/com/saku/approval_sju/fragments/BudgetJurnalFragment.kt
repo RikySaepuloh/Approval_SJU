@@ -39,7 +39,6 @@ class BudgetJurnalFragment : Fragment() {
         myview = inflater.inflate(R.layout.fragment_budget_jurnal, container, false)
         displayopt = activity!!.intent.extras!!.getString("displayopt")
         if(displayopt.equals("history")){
-            myview.layout_appv.visibility = View.GONE
             myview.rv_budget.setPadding(0,0,0,0)
         }
         return myview
@@ -57,26 +56,7 @@ class BudgetJurnalFragment : Fragment() {
         val modul = activity!!.intent.extras!!.getString("modul")
 
 
-        myview.btn_approve.setOnClickListener {
-//            showConfirm("Approve")
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Approve")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
-        myview.btn_reject.setOnClickListener {
-//            showConfirm("Reject")
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Reject")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
+
     }
 
     private fun initData(no_aju : String?) {

@@ -19,6 +19,12 @@ public class ModelBankTransfer {
 	@SerializedName("pajak")
 	private String pajak;
 
+	@SerializedName("nilai")
+	private String nilaiPengajuan;
+
+	@SerializedName("keterangan")
+	private String keterangan;
+
 	@SerializedName("bruto")
 	private String bruto;
 
@@ -28,6 +34,22 @@ public class ModelBankTransfer {
 
 	public String getNamaRek(){
 		return namaRek;
+	}
+
+	public void setKeterangan(String keterangan){
+		this.keterangan = keterangan;
+	}
+
+	public String getKeterangan(){
+		return keterangan;
+	}
+
+	public void setNilaiPengajuan(String nilaiPengajuan){
+		this.nilaiPengajuan = nilaiPengajuan;
+	}
+
+	public String getNilaiPengajuan(){
+		return nilaiPengajuan;
 	}
 
 	public void setBank(String bank){

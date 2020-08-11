@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "174058160308",
+    "firebase_url": "https://approval-sju.firebaseio.com",
+    "project_id": "approval-sju",
+    "storage_bucket": "approval-sju.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174058160308:android:8cca4ebe7acebe5ec117e1",
+        "android_client_info": {
+          "package_name": "com.saku.approval_sju"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174058160308-ujq2utifor1unpv7gt20aqealpg7t0pa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saku.approval_sju",
+            "certificate_hash": "0345167de49440b33e56c2cd9a527c41b0fbbf50"
+          }
+        },
+        {
+          "client_id": "174058160308-dcntu564okbirodeh6o70u4uifqd10nm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiz7lAUAcGHWRaksEoQeQ7qz5h7BUL2eo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174058160308-dcntu564okbirodeh6o70u4uifqd10nm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

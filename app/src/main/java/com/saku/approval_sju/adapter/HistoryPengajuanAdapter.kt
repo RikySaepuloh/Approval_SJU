@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.saku.approval_sju.DetailPengajuanActivity
+import com.saku.approval_sju.Library
 import com.saku.approval_sju.R
 import com.saku.approval_sju.models.ModelHistory
 import kotlinx.android.synthetic.main.layout_pengajuan.view.*
@@ -21,7 +22,8 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelHistory>) :
     private var mFilteredList: ArrayList<ModelHistory>? = rawData
     private var mArrayList: ArrayList<ModelHistory>? = rawData
     var context : Context? = null
-    
+    val library= Library()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -35,23 +37,27 @@ class HistoryPengajuanAdapter(private val rawData:ArrayList<ModelHistory>) :
     }
 
     override fun onBindViewHolder(holder: DataPengajuanViewHolder, position: Int) {
-        if (mFilteredList?.get(position)?.status.equals("APPROVE")){
-            holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
-            holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
-            holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
-            holder.tvTotal?.text = mFilteredList?.get(position)?.nilai + " IDR"
-            holder.btnStatus?.setImageResource(R.drawable.ic_approved)
-        }else if (mFilteredList?.get(position)?.status.equals("REJECT")){
-            holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
-            holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
-            holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
-            holder.tvTotal?.text = mFilteredList?.get(position)?.nilai + " IDR"
-            holder.btnStatus?.setImageResource(R.drawable.ic_rejected)
-        }else{
-            holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
-            holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
-            holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
-            holder.tvTotal?.text = mFilteredList?.get(position)?.nilai + " IDR"
+        when {
+            mFilteredList?.get(position)?.status.equals("APPROVE") -> {
+                holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
+                holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
+                holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
+                holder.tvTotal?.text = library.toRupiah(mFilteredList?.get(position)?.nilai!!.toDouble())
+                holder.btnStatus?.setImageResource(R.drawable.ic_approved)
+            }
+            mFilteredList?.get(position)?.status.equals("REJECT") -> {
+                holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
+                holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
+                holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
+                holder.tvTotal?.text = library.toRupiah(mFilteredList?.get(position)?.nilai!!.toDouble())
+                holder.btnStatus?.setImageResource(R.drawable.ic_rejected)
+            }
+            else -> {
+                holder.tvDesc?.text = mFilteredList?.get(position)?.keterangan
+                holder.tvPembuat?.text = mFilteredList?.get(position)?.pembuat
+                holder.tvDue?.text = mFilteredList?.get(position)?.no_bukti+" - "+mFilteredList?.get(position)?.due_date
+                holder.tvTotal?.text = library.toRupiah(mFilteredList?.get(position)?.nilai!!.toDouble())
+            }
         }
 
         holder.layout?.setOnClickListener {

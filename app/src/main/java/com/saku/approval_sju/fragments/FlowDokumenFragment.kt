@@ -40,7 +40,6 @@ class FlowDokumenFragment : Fragment() {
         myview = inflater.inflate(R.layout.fragment_budget_jurnal, container, false)
         displayopt = activity!!.intent.extras!!.getString("displayopt")
         if(displayopt.equals("history")){
-            myview.layout_appv.visibility = View.GONE
             myview.rv_budget.setPadding(0,0,0,0)
         }
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
@@ -58,24 +57,7 @@ class FlowDokumenFragment : Fragment() {
         val modul = activity!!.intent.extras!!.getString("modul")
 
         initData(noAju,preferences.getToken(),preferences.getTokenType())
-        myview.btn_approve.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Approve")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
-        myview.btn_reject.setOnClickListener {
-            val intent = Intent(context, ProsesActivity::class.java)
-                .apply {
-                    putExtra("no_aju", noAju)
-                    putExtra("status", "Reject")
-                    putExtra("modul", modul)
-                }
-            startActivity(intent)
-        }
+
     }
 
     fun initData(no_aju : String?, token: String?, bearer : String?) {

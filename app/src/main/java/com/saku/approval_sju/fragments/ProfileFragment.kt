@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
                         val datapengajuan: ArrayList<ProfileUser> =
                             gson.fromJson(obj.optString("user"), type)
                         for (data in datapengajuan) {
-                            Glide.with(myctx!!).load(linkImg+data.foto).placeholder(R.drawable.ic_profile).into(myview.profileImage);
+                            Glide.with(myctx!!).load(data.foto).placeholder(R.drawable.ic_profile).into(myview.profileImage);
                             myview.profileName.text = data.nama
                             myview.profileNik.text = data.nik
                             myview.profileNotelp.text = data.noTelp

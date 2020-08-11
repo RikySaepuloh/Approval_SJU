@@ -33,7 +33,7 @@ class FlowDokumen(rawData:ArrayList<ModelHistoryApproval>) :
 
     override fun onBindViewHolder(holder: DataPengajuanViewHolder, position: Int) {
         holder.tvCatatan?.text = "Catatan :\n"+mFilteredList?.get(position)?.catatan
-        holder.tvForm?.text = mFilteredList?.get(position)?.form
+        holder.tvForm?.text = mFilteredList?.get(position)?.modul
         holder.tvNama?.text = mFilteredList?.get(position)?.nama
         holder.tvNik?.text = mFilteredList?.get(position)?.nik_user
         holder.tvNoApp?.text = mFilteredList?.get(position)?.no_app

@@ -95,6 +95,14 @@ class HomeFragment : Fragment(){
 
                             val datapengajuan: ArrayList<ModelDataPengajuan> =
                                 gson.fromJson(dataobj.optString("data"), type)
+                            val status = dataobj.optString("message")
+                            if(status=="Data Kosong!"){
+                                myview.empty_view.visibility=View.VISIBLE
+                                myview.rv_pengajuan.visibility=View.GONE
+                            }else{
+                                myview.empty_view.visibility=View.GONE
+                                myview.rv_pengajuan.visibility=View.VISIBLE
+                            }
 //                            val mydata: ArrayList<ModelDataPengajuan>? = null
                             myadapter =
                                 DataPengajuanAdapter(

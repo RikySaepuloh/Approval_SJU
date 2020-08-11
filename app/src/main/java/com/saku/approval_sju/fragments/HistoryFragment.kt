@@ -64,6 +64,7 @@ class HistoryFragment : Fragment() {
 
     fun initData(token: String?, bearer : String?, status : String?,params : String?) {
         myview.progress_bar.visibility = View.VISIBLE
+        myview.empty_view.visibility = View.GONE
         val apiservice= UtilsApi().getAPIService(myctx!!)
         when {
             params.equals("All") -> {
@@ -83,6 +84,14 @@ class HistoryFragment : Fragment() {
                                         TypeToken<ArrayList<ModelHistory?>?>() {}.type
                                     val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
+                                    val stat = dataobj.optString("message")
+                                    if(stat=="Data Kosong!"){
+                                        myview.empty_view.visibility=View.VISIBLE
+                                        myview.rv_history.visibility=View.GONE
+                                    }else{
+                                        myview.empty_view.visibility=View.GONE
+                                        myview.rv_history.visibility=View.VISIBLE
+                                    }
                                     myadapter =
                                         HistoryPengajuanAdapter(
                                             datapengajuan
@@ -114,8 +123,6 @@ class HistoryFragment : Fragment() {
                                         }
                                     })
                                     myview.rv_history.adapter = myadapter
-                                    myview.empty_view.visibility=View.GONE
-                                    myview.rv_history.visibility=View.VISIBLE
                                     myview.progress_bar.visibility = View.GONE
                                 } catch (e: Exception) {
                                     myview.empty_view.visibility=View.VISIBLE
@@ -168,6 +175,14 @@ class HistoryFragment : Fragment() {
                                         TypeToken<ArrayList<ModelHistory?>?>() {}.type
                                     val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
+                                    val stat = dataobj.optString("message")
+                                    if(stat=="Data Kosong!"){
+                                        myview.empty_view.visibility=View.VISIBLE
+                                        myview.rv_history.visibility=View.GONE
+                                    }else{
+                                        myview.empty_view.visibility=View.GONE
+                                        myview.rv_history.visibility=View.VISIBLE
+                                    }
                                     myadapter =
                                         HistoryPengajuanAdapter(
                                             datapengajuan
@@ -199,8 +214,6 @@ class HistoryFragment : Fragment() {
                                         }
                                     })
                                     myview.rv_history.adapter = myadapter
-                                    myview.empty_view.visibility=View.GONE
-                                    myview.rv_history.visibility=View.VISIBLE
                                     myview.progress_bar.visibility = View.GONE
                                 } catch (e: Exception) {
                                     myview.empty_view.visibility=View.VISIBLE
@@ -253,6 +266,14 @@ class HistoryFragment : Fragment() {
                                         TypeToken<ArrayList<ModelHistory?>?>() {}.type
                                     val datapengajuan: ArrayList<ModelHistory> =
                                         gson.fromJson(dataobj.optString("data"), type)
+                                    val stat = dataobj.optString("message")
+                                    if(stat=="Data Kosong!"){
+                                        myview.empty_view.visibility=View.VISIBLE
+                                        myview.rv_history.visibility=View.GONE
+                                    }else{
+                                        myview.empty_view.visibility=View.GONE
+                                        myview.rv_history.visibility=View.VISIBLE
+                                    }
     //                        for (data in datapengajuan) {
     //                            Log.i(
     //                                "Data Pengajuan",
@@ -291,8 +312,6 @@ class HistoryFragment : Fragment() {
                                     })
                                     myview.rv_history.adapter = myadapter
                                     myview.progress_bar.visibility = View.GONE
-                                    myview.rv_history.visibility=View.VISIBLE
-                                    myview.empty_view.visibility=View.GONE
                                 } catch (e: Exception) {
                                     myview.empty_view.visibility=View.VISIBLE
                                     myview.rv_history.visibility=View.GONE

@@ -3,6 +3,11 @@ package com.saku.approval_sju.models
 import com.google.gson.annotations.SerializedName
 
 class ModelInfoPengajuan {
+    @field:SerializedName("nilai_seb")
+    val nilaiSeb: String? = null
+
+    @field:SerializedName("potongan")
+    val potongan: String? = null
 
     @SerializedName("pp")
     private var pp: String? = null
