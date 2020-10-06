@@ -77,6 +77,7 @@ class FlowDokumenFragment : Fragment() {
                                 TypeToken<ArrayList<ModelHistoryApproval?>>() {}.type
                             val datapengajuan: ArrayList<ModelHistoryApproval> =
                                 gson.fromJson(dataobj.optString("data"), type)
+                            datapengajuan.reverse()
                             myadapter =
                                 FlowDokumen(
                                     rawData = datapengajuan

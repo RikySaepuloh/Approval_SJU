@@ -49,6 +49,7 @@
                         android:layout_weight="4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:boxBackgroundColor="@android:color/transparent"
                         android:textColorHint="@color/colorPrimary"
                         app:passwordToggleTint="@color/colorPrimary"
                         >
@@ -79,6 +80,7 @@
                         android:layout_weight="4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:boxBackgroundColor="@android:color/transparent"
                         app:passwordToggleEnabled="true"
                         android:textColorHint="@color/colorPrimary"
                         app:passwordToggleTint="@color/colorPrimary"

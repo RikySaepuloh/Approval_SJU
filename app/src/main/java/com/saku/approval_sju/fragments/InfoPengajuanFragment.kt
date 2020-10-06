@@ -18,7 +18,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.saku.approval_sju.*
 import com.saku.approval_sju.api_service.UtilsApi
-import com.saku.approval_sju.models.ModelInfoPengajuan
+import com.saku.approval_sju.models.Test
 import kotlinx.android.synthetic.main.fragment_info_pengajuan.view.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -83,25 +83,28 @@ class InfoPengajuanFragment : Fragment() {
 //
                                 val gson = Gson()
                                 val type: Type = object :
-                                    TypeToken<ArrayList<ModelInfoPengajuan?>?>() {}.type
-                                val datapengajuan: ArrayList<ModelInfoPengajuan> =
+                                    TypeToken<ArrayList<Test?>?>() {}.type
+                                val datapengajuan: ArrayList<Test> =
                                     gson.fromJson(dataobj.optString("data"), type)
-                                for (data in datapengajuan) {
-                                    myview.tv_catatan?.text = "Catatan :\n"+data.getCatatan()
-                                    myview.tv_total_pengajuan?.text = library.toRupiah(data.nilaiSeb!!.toDouble())
-                                    myview.tv_nilai_net?.text = library.toRupiah(data.getNilai()!!.toDouble())
-                                    myview.tv_potongan?.text = library.toRupiah(data.potongan!!.toDouble())
+                                for (data in 0 until datapengajuan.size) {
+                                    myview.tv_catatan?.text = "Catatan :\n"+datapengajuan[data].catatan
+                                    myview.tv_total_pengajuan?.text = library.toRupiah(datapengajuan[data].nilaiSeb!!.toDouble())
+                                    myview.tv_nilai_net?.text = library.toRupiah(datapengajuan[data].nilai!!.toDouble())
+                                    myview.tv_potongan?.text = library.toRupiah(datapengajuan[data].potongan!!.toDouble())
+//                                    myview.tv_total_pengajuan?.text = library.toRupiah(datapengajuan[data].nilai!!.toDouble())
+//                                    myview.tv_potongan?.text = library.toRupiah(datapengajuan[data].potongan!!.toDouble())
+                                    myview.tv_nilai_net?.text = library.toRupiah(datapengajuan[data].nilai!!.toDouble())
 //                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
 //                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
 //                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
-                                    myview.tv_pp?.text = data.getPp()
-                                    myview.tv_deskripsi?.text = data.getKeterangan()
-                                    myview.tv_nama_pembuat?.text = data.getPembuat()
+                                    myview.tv_pp?.text = datapengajuan[data].pp
+                                    myview.tv_deskripsi?.text = datapengajuan[data].keterangan
+                                    myview.tv_nama_pembuat?.text = datapengajuan[data].pembuat
 //                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
-                                    myview.tv_nobukti?.text = data.getNoBukti()
-                                    myview.tv_modul?.text = data.getModul()
-                                    myview.tv_tgl_bukti?.text = data.getTgl()
-                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(data.getDueDate())
+                                    myview.tv_nobukti?.text = datapengajuan[data].noBukti
+                                    myview.tv_modul?.text = datapengajuan[data].modul
+                                    myview.tv_tgl_bukti?.text = datapengajuan[data].tgl
+                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(datapengajuan[data].dueDate)
                                     val formattedDate: String =
                                         SimpleDateFormat("dd/MM/yyyy").format(date)
                                     myview.tv_due?.text = formattedDate
@@ -153,26 +156,26 @@ class InfoPengajuanFragment : Fragment() {
 //
                                 val gson = Gson()
                                 val type: Type = object :
-                                    TypeToken<ArrayList<ModelInfoPengajuan?>?>() {}.type
-                                val datapengajuan: ArrayList<ModelInfoPengajuan> =
+                                    TypeToken<ArrayList<Test?>?>() {}.type
+                                val datapengajuan: ArrayList<Test> =
                                     gson.fromJson(dataobj.optString("data"), type)
                                 for (data in datapengajuan) {
 
                                     myview.tv_total_pengajuan?.text = library.toRupiah(data.nilaiSeb!!.toDouble())
-                                    myview.tv_nilai_net?.text = library.toRupiah(data.getNilai()!!.toDouble())
+                                    myview.tv_nilai_net?.text = library.toRupiah(data.nilai!!.toDouble())
                                     myview.tv_potongan?.text = library.toRupiah(data.potongan!!.toDouble())
 
 //                                    myview.tv_total_verifikasi?.text = data.getNilai() + " IDR"
 //                                    myview.tv_total_rekening?.text = data.getNilai() + " IDR"
 //                                    myview.tv_nilai_verifikasi?.text = data.getNilai() + " IDR"
-                                    myview.tv_pp?.text = data.getPp()
-                                    myview.tv_deskripsi?.text = data.getKeterangan()
-                                    myview.tv_nama_pembuat?.text = data.getPembuat()
+                                    myview.tv_pp?.text = data.pp
+                                    myview.tv_deskripsi?.text = data.keterangan
+                                    myview.tv_nama_pembuat?.text = data.pembuat
 //                                    myview.tv_no_dokumen?.text = data.getNoDokumen()
-                                    myview.tv_nobukti?.text = data.getNoBukti()
-                                    myview.tv_modul?.text = data.getModul()
-                                    myview.tv_tgl_bukti?.text = data.getTgl()
-                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(data.getDueDate())
+                                    myview.tv_nobukti?.text = data.noBukti
+                                    myview.tv_modul?.text = data.modul
+                                    myview.tv_tgl_bukti?.text = data.tgl
+                                    val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(data.dueDate)
                                     val formattedDate: String =
                                         SimpleDateFormat("dd/MM/yyyy").format(date)
                                     myview.tv_due?.text = formattedDate

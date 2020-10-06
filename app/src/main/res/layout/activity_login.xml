@@ -47,6 +47,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_weight="4"
                         android:layout_width="0dp"
+                        app:boxBackgroundColor="@android:color/transparent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/colorPrimary"
                         app:passwordToggleTint="@color/colorPrimary"
@@ -80,6 +81,7 @@
                         android:layout_height="wrap_content"
                         app:passwordToggleEnabled="true"
                         android:textColorHint="@color/colorPrimary"
+                        app:boxBackgroundColor="@android:color/transparent"
                         app:passwordToggleTint="@color/colorPrimary"
                         >
                         <com.google.android.material.textfield.TextInputEditText

@@ -31,8 +31,9 @@ class FileViewerActivity : AppCompatActivity(), DownloadFile.Listener {
         }
         if(status=="pdf"){
 //            remotePDFViewPager = RemotePDFViewPager(this, "https://devsai-s3.s3.ap-southeast-1.amazonaws.com/apv/5f0575d4d5a18_Preview.pdf", this)
-            remotePDFViewPager = RemotePDFViewPager(this, link.replace(" ","%20"), this)
+            remotePDFViewPager = RemotePDFViewPager(this@FileViewerActivity, link, this)
             remotePDFViewPager.id = R.id.pdfview
+//            Toast.makeText(this,"Masih dalam proses maintenance",Toast.LENGTH_LONG).show()
         }else{
             imageview = imageView
             imageview.id = R.id.imageView
@@ -62,19 +63,20 @@ class FileViewerActivity : AppCompatActivity(), DownloadFile.Listener {
     }
 
     override fun onSuccess(url: String?, destinationPath: String?) {
-        adapter = PDFPagerAdapter(this, FileUtil.extractFileNameFromURL(url))
+        adapter = PDFPagerAdapter(this@FileViewerActivity, FileUtil.extractFileNameFromURL(url))
         remotePDFViewPager.adapter = adapter
+//        setContentView(remotePDFViewPager)
         updateLayout()
     }
 
     fun updateLayout(){
-        root.removeAllViewsInLayout();
+        root.removeAllViewsInLayout()
         root.addView(remotePDFViewPager,
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
     }
 
     fun imageLayout(){
-        root.removeAllViewsInLayout();
+        root.removeAllViewsInLayout()
         root.addView(imageview,
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
         Glide.with(this).load(link).error(android.R.drawable.ic_dialog_alert).into(imageview)
@@ -94,6 +96,7 @@ class FileViewerActivity : AppCompatActivity(), DownloadFile.Listener {
         if (progress==10){
             Toast.makeText(this,"Harap tunggu...",Toast.LENGTH_LONG).show()
         }
+
     }
 
     override fun onDestroy() {

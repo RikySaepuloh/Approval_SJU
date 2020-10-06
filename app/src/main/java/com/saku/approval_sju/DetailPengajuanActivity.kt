@@ -32,7 +32,8 @@ class DetailPengajuanActivity : AppCompatActivity() {
                 supportFragmentManager,
                 tabLayout.tabCount
             )
-        viewPager.adapter = pageAdapter;
+        viewPager.adapter = pageAdapter
+        viewPager.offscreenPageLimit = 4
         viewPager.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

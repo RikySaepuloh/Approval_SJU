@@ -164,7 +164,6 @@ class ProsesActivity : AppCompatActivity() {
     fun sendApprove(stat:String) {
         val tanggal: String =
             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
         val apiservice= UtilsApi().getAPIService(this@ProsesActivity)
         apiservice?.approval(noAju,stat,input_keterangan.text.toString(),noUrut,tanggal)?.enqueue(object :
             Callback<ResponseBody?> {
@@ -209,8 +208,8 @@ class ProsesActivity : AppCompatActivity() {
 
     private fun sendNotification(idDevice:String,nik:String) {
 
-        val title  = "Justifikasi Pengadaan"
-        val message  = "Pengajuan Justifikasi Pengadaan $noAju menunggu approval anda."
+        val title  = "Pengajuan Pembayaran"
+        val message  = "Pengajuan Pembayaran $noAju menunggu approval anda."
 
         val apiservice = UtilsApi().getAPIService(this@ProsesActivity!!)
         apiservice?.sendNotif(idDevice,title,message,nik)?.enqueue(object : Callback<ResponseBody?> {

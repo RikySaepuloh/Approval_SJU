@@ -37,7 +37,7 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
 
     override fun onBindViewHolder(holder: DataPengajuanViewHolder, position: Int) {
         holder.nama?.text = mFilteredList?.get(position)?.no_gambar
-        val rawLink = "http://newsju.simkug.com/server/media/"
+        val rawLink = "https://newsju.simkug.com/server/media/"
 //            mFilteredList?.get(position)?.host.toString().replace("\\","")
         val filename = mFilteredList?.get(position)?.no_gambar.toString()
         val filedesc = mFilteredList?.get(position)?.kode_jenis.toString()
@@ -61,14 +61,7 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
             holder.link?.setOnClickListener {
                 downloadBerkas(rawLink, filename)
             }
-        }else if(typefile.equals("doc")||typefile.equals("docx")){
-            holder.filetype?.background = ContextCompat.getDrawable(context,R.drawable.file_type_box_blue)
-            holder.filetype?.text = "DOC"
-            holder.link?.text = "Download"
-            holder.link?.setOnClickListener {
-                downloadBerkas(rawLink, filename)
-            }
-        }else{
+        }else if(typefile.equals("png")||typefile.equals("jpg")||typefile.equals("jpeg")){
             holder.filetype?.background = ContextCompat.getDrawable(context,R.drawable.file_type_box_grey)
             holder.filetype?.text = "IMG"
             holder.link?.setOnClickListener {
@@ -77,19 +70,47 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
                         putExtra("link",file)
                         putExtra("status","img")
                     }
-                context?.startActivity(intent)
+                context.startActivity(intent)
+            }
+        }else if(typefile.equals("doc")||typefile.equals("docx")){
+            holder.filetype?.background = ContextCompat.getDrawable(context,R.drawable.file_type_box_blue)
+            holder.filetype?.text = "DOC"
+            holder.link?.text = "Download"
+            holder.link?.setOnClickListener {
+                downloadBerkas(rawLink, filename)
+            }
+        }else{
+//            holder.filetype?.background = ContextCompat.getDrawable(context,R.drawable.file_type_box_grey)
+//            holder.filetype?.text = "IMG"
+//            holder.link?.setOnClickListener {
+//                val intent = Intent(context, FileViewerActivity::class.java)
+//                    .apply {
+//                        putExtra("link",file)
+//                        putExtra("status","img")
+//                    }
+//                context.startActivity(intent)
+//            }
+            holder.filetype?.background = ContextCompat.getDrawable(context,R.drawable.file_type_box_green)
+            holder.filetype?.text = "XLS"
+            holder.link?.text = "Download"
+            holder.link?.setOnClickListener {
+                downloadBerkas(rawLink, filename)
             }
         }
 
-        holder.link?.setOnLongClickListener {
+        holder.nama?.setOnClickListener {
             downloadBerkas(rawLink,filename)
-            return@setOnLongClickListener true
         }
+
+//        holder.link?.setOnLongClickListener {
+//            downloadBerkas(rawLink,filename)
+//            return@setOnLongClickListener true
+//        }
 
     }
 
     fun downloadBerkas(rawLink:String,filename:String){
-        MaterialAlertDialogBuilder(context!!)
+        MaterialAlertDialogBuilder(context)
             .setTitle("Unduh Berkas")
             .setMessage(filename)
             .setNegativeButton("Tidak") { dialog, which ->
@@ -102,20 +123,21 @@ class DokumenAdapter(rawData: ArrayList<ModelDokumen>) :
                 request.setDescription(filename)
                 request.setAllowedOverRoaming(true)
                 request.setTitle(filename)
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
                 request.setDestinationInExternalPublicDir(
                     Environment.DIRECTORY_DOWNLOADS,
                     filename
                 )
                 val manager =
-                    context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+                    context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
                 manager!!.enqueue(request)
                 Toast.makeText(
                     context,
-                    "Download sedang berlangsung$rawLink$filename",
+                    "Download sedang berlangsung $rawLink$filename",
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            .show()
     }
 
     override fun getItemCount(): Int {

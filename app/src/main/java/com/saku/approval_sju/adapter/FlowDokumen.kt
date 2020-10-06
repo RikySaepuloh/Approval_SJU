@@ -33,8 +33,16 @@ class FlowDokumen(rawData:ArrayList<ModelHistoryApproval>) :
 
     override fun onBindViewHolder(holder: DataPengajuanViewHolder, position: Int) {
         holder.tvCatatan?.text = "Catatan :\n"+mFilteredList?.get(position)?.catatan
-        holder.tvForm?.text = mFilteredList?.get(position)?.modul
-        holder.tvNama?.text = mFilteredList?.get(position)?.nama
+        if(mFilteredList?.get(position)?.modul=="VER"){
+            holder.tvForm?.text = "VERIFIKASI"
+        }else if(mFilteredList?.get(position)?.modul=="ATASAN"){
+            holder.tvForm?.text = "APP ATASAN"
+        }
+        else{
+            holder.tvForm?.text = mFilteredList?.get(position)?.modul
+        }
+        holder.tvNama?.text = mFilteredList?.get(position)?.nama?.capitalize()
+        holder.tvJabatan?.text = mFilteredList?.get(position)?.jabatan
         holder.tvNik?.text = mFilteredList?.get(position)?.nik_user
         holder.tvNoApp?.text = mFilteredList?.get(position)?.no_app
         holder.tvTgl?.text = mFilteredList?.get(position)?.tgl
@@ -57,6 +65,7 @@ class FlowDokumen(rawData:ArrayList<ModelHistoryApproval>) :
         val tvForm : TextView? = itemView?.tv_form
         val tvCatatan : TextView? = itemView?.tv_catatan
         val tvNama : TextView? = itemView?.tv_nama
+        val tvJabatan : TextView? = itemView?.tv_jabatan
         val tvNik : TextView? = itemView?.tv_nik
         val tvTgl : TextView? = itemView?.tv_tgl_approval
         val btnStatus : ImageView? = itemView?.btn_status

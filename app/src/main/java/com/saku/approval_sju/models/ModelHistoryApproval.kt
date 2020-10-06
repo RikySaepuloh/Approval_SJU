@@ -16,6 +16,9 @@ data class ModelHistoryApproval(
 	@field:SerializedName("nama")
 	val nama: String? = null,
 
+	@field:SerializedName("jabatan")
+	val jabatan: String? = null,
+
 	@field:SerializedName("form")
 	val form: String? = null,
 
